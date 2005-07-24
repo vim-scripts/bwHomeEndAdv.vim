@@ -1,0 +1,12 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1316
+
+Description:
+  This script enhances the <Home> and <End> key in both normal mode and
+  insert mode. 
+
+  <Home> is enhanced to behave like in Visual C++, you can use <Home> to
+  jump between the first column and the first non-space character of a
+  line.
+
+  Besides, <End> is also enhanced and can be used to jump between the last
+  column and the last non-space character of a line.
