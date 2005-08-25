@@ -8,10 +8,11 @@
 "            event will the copyright holder be liable for any damages
 "            resulting from the use of this software.
 " Filename:  bwHomeEndAdv.vim
+" URL:       http://vim.sourceforge.net/scripts/script.php?script_id=1316
 " Author:    Bruce Who (AKA. 胡旭昭 or HuXuzhao)
-" Email:     HuXuzhao at hotmail.com
+" Email:     HuXuzhao@hotmail.com
 " Date:      2005-05-10
-" $Revision: 1.2 $
+" $Revision: 1.3 $
 " Description:
 "   This script enhances the <Home> and <End> key in both normal mode and
 "   insert mode. 
@@ -26,6 +27,14 @@
 " Installation:
 "   Drop the script to your plugin directory.
 " History:
+"   2005-08-26:
+"     - Bug fix: After Entering VIM, and press <End> for the first time
+"                while the cursor is already at the end of the line, an
+"                error occurs.
+"     - add <silent> to each mapping to make it behave like normal <Home> &
+"       <End>.
+"     Thanks to Andrzej Zaborowski who reported the bug and gave me a patch,
+"     and also gave me the suggestion.
 "   2005-07-22:
 "     - revise the document
 "     - fix a bug: if there is only one traling blank space, you cannot use
@@ -44,11 +53,11 @@ let g:bwHomeEndAdv = 1 " }}}
 
 " Keymaps {{{
 " <Home>
-inoremap <Home> <c-o>:call <SID>HomeEnhanced()<CR>
-nnoremap <Home> :call <SID>HomeEnhanced()<CR>
+inoremap <silent> <Home> <c-o>:call <SID>HomeEnhanced()<CR>
+nnoremap <silent> <Home> :call <SID>HomeEnhanced()<CR>
 " <End>
-inoremap <End> <C-R>=<SID>IEndEnhanced1()<CR><ESC>:call <SID>IEndEnhanced2()<CR>a
-nnoremap <End> :call <SID>EndEnhanced()<CR>
+inoremap <silent> <End> <C-R>=<SID>IEndEnhanced1()<CR><ESC>:call <SID>IEndEnhanced2()<CR>a
+nnoremap <silent> <End> :call <SID>EndEnhanced()<CR>
 " }}}
 
 " Implement {{{
@@ -68,6 +77,8 @@ function! s:IEndEnhanced1()
   if strlen(text) < col('.')
     if strpart(text, col('.') - 2, 1) == ' '
       let s:goto_end = 'g_'
+    else
+      let s:goto_end = '$'
     endif
   else
     let text = strpart(text, col('.') - 1)
